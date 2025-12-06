@@ -9,7 +9,7 @@
 | `content` | String | Not null |
 | `createdAt` | LocalDateTime | Not null, auto-set on creation |
 | `updatedAt` | LocalDateTime | Not null, auto-updated on modification |
-| `tags` | List<String> | Not null (can be empty list) |
+| `tags` | List<String> | Not null, always returns empty list `[]` instead of null |
 
 ## Technology Stack
 
