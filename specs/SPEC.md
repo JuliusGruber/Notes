@@ -16,6 +16,7 @@
 - **Framework**: Quarkus
 - **Database**: PostgreSQL
 - **Persistence**: Hibernate ORM with Panache
+- **Schema Migration**: Flyway
 - **API Documentation**: OpenAPI / Swagger UI
 - **Testing**: REST Assured
 
@@ -35,6 +36,14 @@
 - REST Assured integration tests for all endpoints
 - Basic not-null validation for required fields
 - No pagination or filtering (to keep it simple for initial version)
+
+## Database Schema Migration
+
+Flyway is used for database schema versioning. Migration scripts are located in `src/main/resources/db/migration/` and follow the naming convention `V{version}__{description}.sql`.
+
+| Migration | Description |
+|-----------|-------------|
+| `V1__Create_notes_table.sql` | Creates the initial `note` table with all fields |
 
 ## Future Enhancements (out of scope for now)
 
