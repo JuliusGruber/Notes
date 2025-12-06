@@ -30,7 +30,7 @@ Notes API is a CRUD Quarkus backend for managing Note entities. It uses PostgreS
 
 ## Tech Stack
 
-- **Java 21** with Quarkus 3.17.2
+- **Java 17** with Quarkus 3.17.2
 - **Hibernate ORM with Panache** - Active Record pattern for entities
 - **Flyway** - Database migrations in `src/main/resources/db/migration/`
 - **REST Assured** - Testing framework
