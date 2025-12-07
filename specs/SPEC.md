@@ -22,13 +22,15 @@
 
 ## REST API Endpoints
 
+All API endpoints are versioned with a `/v1` prefix.
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/notes` | List all notes |
-| `GET` | `/notes/{id}` | Get a single note by ID |
-| `POST` | `/notes` | Create a new note |
-| `PUT` | `/notes/{id}` | Update an existing note |
-| `DELETE` | `/notes/{id}` | Delete a note |
+| `GET` | `/v1/notes` | List all notes |
+| `GET` | `/v1/notes/{id}` | Get a single note by ID |
+| `POST` | `/v1/notes` | Create a new note |
+| `PUT` | `/v1/notes/{id}` | Update an existing note |
+| `DELETE` | `/v1/notes/{id}` | Delete a note |
 
 ## Features
 
