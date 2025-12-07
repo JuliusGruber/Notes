@@ -4,7 +4,7 @@
 
 | Field | Type | Constraints |
 |-------|------|-------------|
-| `id` | Long | Primary key, auto-generated |
+| `id` | UUID | Primary key, auto-generated |
 | `title` | String | Not null |
 | `content` | String | Not null |
 | `createdAt` | LocalDateTime | Not null, auto-set on creation |
