@@ -8,24 +8,26 @@ Notes API is a CRUD Quarkus backend for managing Note entities. It uses PostgreS
 
 ## Build and Development Commands
 
+This project does not use Maven wrapper. Use `mvn` directly.
+
 ```bash
 # Run in development mode with hot reload
-./mvnw quarkus:dev
+mvn quarkus:dev
 
 # Run tests
-./mvnw test
+mvn test
 
 # Run a single test class
-./mvnw test -Dtest=NoteResourceTest
+mvn test -Dtest=NoteResourceTest
 
 # Run a single test method
-./mvnw test -Dtest=NoteResourceTest#testGetAllNotes
+mvn test -Dtest=NoteResourceTest#testGetAllNotes
 
 # Build the project
-./mvnw package
+mvn package
 
 # Build native executable
-./mvnw package -Dnative
+mvn package -Dnative
 ```
 
 ## Tech Stack
@@ -40,7 +42,7 @@ Notes API is a CRUD Quarkus backend for managing Note entities. It uses PostgreS
 
 This is a simple CRUD API with a single entity:
 
-- **Entity**: `Note` (`src/main/java/com/example/notes/entity/Note.java`) - Uses Panache's `PanacheEntity` which provides the `id` field and repository methods
+- **Entity**: `Note` (`src/main/java/com/example/notes/entity/Note.java`) - Uses Panache's `PanacheEntityBase` with UUID primary key
 - **REST Endpoints**: `/notes` for CRUD operations
 - **API Docs**: Swagger UI at `/q/swagger-ui`
 
