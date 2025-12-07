@@ -1,4 +1,4 @@
-package com.example.notes.dto;
+package com.example.notes.infrastructure.adapter.in.rest.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
