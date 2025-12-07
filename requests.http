@@ -1,0 +1,33 @@
+### Notes API - Local Development Testing
+### Start the API with: mvn quarkus:dev
+
+### Get all notes
+GET http://localhost:8080/v1/notes
+Accept: application/json
+
+### Create a new note
+POST http://localhost:8080/v1/notes
+Content-Type: application/json
+
+{
+  "title": "My First Note",
+  "content": "This is the content of my first note.",
+  "tags": ["example", "test"]
+}
+
+### Get a note by ID (replace {id} with actual UUID)
+GET http://localhost:8080/v1/notes/{{id}}
+Accept: application/json
+
+### Update a note (replace {id} with actual UUID)
+PUT http://localhost:8080/v1/notes/{{id}}
+Content-Type: application/json
+
+{
+  "title": "Updated Note Title",
+  "content": "This is the updated content.",
+  "tags": ["updated", "example"]
+}
+
+### Delete a note (replace {id} with actual UUID)
+DELETE http://localhost:8080/v1/notes/{{id}}
