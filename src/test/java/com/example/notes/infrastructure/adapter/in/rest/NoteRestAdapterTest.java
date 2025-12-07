@@ -1,4 +1,4 @@
-package com.example.notes.resource;
+package com.example.notes.infrastructure.adapter.in.rest;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
@@ -10,7 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 @QuarkusTest
-public class NoteResourceTest {
+public class NoteRestAdapterTest {
 
     @Test
     public void testCreateNote() {
