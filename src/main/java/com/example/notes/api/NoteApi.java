@@ -1,6 +1,7 @@
 package com.example.notes.api;
 
-import com.example.notes.entity.Note;
+import com.example.notes.dto.CreateNoteRequest;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -14,5 +15,5 @@ import jakarta.ws.rs.core.Response;
 public interface NoteApi {
 
     @POST
-    Response createNote(Note request);
+    Response createNote(@Valid CreateNoteRequest request);
 }
