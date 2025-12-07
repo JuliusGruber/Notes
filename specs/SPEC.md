@@ -47,6 +47,25 @@ Flyway is used for database schema versioning. Migration scripts are located in 
 |-----------|-------------|
 | `V1__Create_notes_table.sql` | Creates the initial `note` table with all fields |
 
+## Architecture
+
+### Interface/Implementation Pattern
+
+This project follows a clean separation between API contracts and implementation:
+
+- **Interface files** (`api/` package): Contain the JAX-RS annotations defining the REST API contract
+- **Implementation classes** (`resource/` package): Contain the business logic, implementing the interfaces
+
+| Package | Purpose |
+|---------|---------|
+| `com.example.notes.api` | API interfaces with JAX-RS annotations (`@Path`, `@GET`, `@POST`, etc.) |
+| `com.example.notes.resource` | Implementation classes with business logic |
+| `com.example.notes.entity` | JPA entities |
+
+All new endpoints should follow this pattern:
+1. Define the method signature with JAX-RS annotations in the interface
+2. Implement the business logic in the resource class
+
 ## Future Enhancements (out of scope for now)
 
 - Pagination for listing notes
