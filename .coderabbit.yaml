@@ -1,0 +1,65 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+language: "en-US"
+
+early_access: false
+
+reviews:
+  profile: "chill"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  collapse_walkthrough: true
+  sequence_diagrams: true
+  changed_files_summary: true
+  labeling_instructions: []
+  path_filters:
+    - "!**/*.lock"
+    - "!**/package-lock.json"
+    - "!**/*.min.js"
+    - "!**/*.min.css"
+  path_instructions:
+    - path: "src/main/java/**/*.java"
+      instructions: |
+        Review Java code for:
+        - Proper use of Quarkus and Panache patterns
+        - RESTful API best practices
+        - Null safety and proper exception handling
+        - Clean code principles and SOLID design
+        - Proper use of dependency injection
+    - path: "src/test/java/**/*.java"
+      instructions: |
+        Review test code for:
+        - Adequate test coverage
+        - Clear test naming and organization
+        - Proper use of REST Assured assertions
+        - Test isolation and independence
+    - path: "src/main/resources/db/migration/**"
+      instructions: |
+        Review Flyway migrations for:
+        - Backward compatibility
+        - Proper versioning convention
+        - Safe schema changes (avoid data loss)
+        - Index considerations for performance
+
+auto_review:
+  enabled: true
+  ignore_title_keywords:
+    - "WIP"
+    - "DO NOT MERGE"
+    - "[wip]"
+    - "[skip ci]"
+  drafts: false
+  base_branches:
+    - "main"
+    - "master"
+    - "develop"
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  learnings:
+    scope: "auto"
+  issues:
+    scope: "auto"
