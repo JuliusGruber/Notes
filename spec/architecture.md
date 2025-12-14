@@ -1,6 +1,6 @@
 # Architecture Overview
 
-This document describes the architecture of the Notes API project.
+This document describes the architecture of the Notez API project. While the domain is straightforward (notes management), this is not a simple CRUD application. The architecture demonstrates enterprise-grade patterns and clean separation of concerns.
 
 ## Architecture Style: Hexagonal (Ports & Adapters)
 
