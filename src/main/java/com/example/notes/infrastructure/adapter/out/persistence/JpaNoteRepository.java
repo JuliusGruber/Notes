@@ -6,6 +6,9 @@ import com.example.notes.domain.model.NoteId;
 import com.example.notes.infrastructure.adapter.out.persistence.mapper.NotePersistenceMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.util.List;
+import java.util.Optional;
+
 @ApplicationScoped
 public class JpaNoteRepository implements NoteRepository {
 
@@ -17,9 +20,28 @@ public class JpaNoteRepository implements NoteRepository {
 
     @Override
     public Note save(Note note) {
+        NoteJpaEntity existingEntity = NoteJpaEntity.findById(note.id().value());
+        if (existingEntity != null) {
+            mapper.updateJpaEntity(existingEntity, note);
+            return mapper.toDomainEntity(existingEntity);
+        }
         NoteJpaEntity entity = mapper.toNewJpaEntity(note);
         entity.persist();
         return mapper.toDomainEntity(entity);
+    }
+
+    @Override
+    public Optional<Note> findById(NoteId id) {
+        return NoteJpaEntity.<NoteJpaEntity>findByIdOptional(id.value())
+                .map(mapper::toDomainEntity);
+    }
+
+    @Override
+    public List<Note> findAll() {
+        return NoteJpaEntity.<NoteJpaEntity>listAll()
+                .stream()
+                .map(mapper::toDomainEntity)
+                .toList();
     }
 
     @Override

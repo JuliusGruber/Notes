@@ -210,4 +210,192 @@ public class NoteRestAdapterTest {
         .then()
             .statusCode(404);
     }
+
+    // GET by ID tests
+    @Test
+    public void testGetNoteByIdReturns200() {
+        String noteId = createNoteAndGetId();
+
+        given()
+        .when()
+            .get("/v1/notes/" + noteId)
+        .then()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .body("id", is(noteId))
+            .body("title", is("Test"))
+            .body("content", is("Content"))
+            .body("createdAt", notNullValue())
+            .body("updatedAt", notNullValue())
+            .body("tags", notNullValue());
+    }
+
+    @Test
+    public void testGetNonExistentNoteReturns404() {
+        UUID nonExistentId = UUID.randomUUID();
+
+        given()
+        .when()
+            .get("/v1/notes/" + nonExistentId)
+        .then()
+            .statusCode(404)
+            .body("message", is("Note not found with id: " + nonExistentId));
+    }
+
+    @Test
+    public void testGetNoteWithInvalidUuidFormatReturns404() {
+        given()
+        .when()
+            .get("/v1/notes/invalid-uuid")
+        .then()
+            .statusCode(404);
+    }
+
+    // List all notes tests
+    @Test
+    public void testListNotesReturnsEmptyListWhenNoNotes() {
+        given()
+        .when()
+            .get("/v1/notes")
+        .then()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .body("size()", is(org.hamcrest.Matchers.greaterThanOrEqualTo(0)));
+    }
+
+    @Test
+    public void testListNotesReturnsCreatedNotes() {
+        String noteId = createNoteAndGetId();
+
+        given()
+        .when()
+            .get("/v1/notes")
+        .then()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .body("id", hasItem(noteId));
+    }
+
+    // Update note tests
+    @Test
+    public void testUpdateNoteReturns200() {
+        String noteId = createNoteAndGetId();
+        String updateBody = "{\"title\": \"Updated Title\", \"content\": \"Updated Content\", \"tags\": [\"updated\"]}";
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(updateBody)
+        .when()
+            .put("/v1/notes/" + noteId)
+        .then()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .body("id", is(noteId))
+            .body("title", is("Updated Title"))
+            .body("content", is("Updated Content"))
+            .body("tags", hasItem("updated"));
+    }
+
+    @Test
+    public void testUpdateNonExistentNoteReturns404() {
+        UUID nonExistentId = UUID.randomUUID();
+        String updateBody = "{\"title\": \"Updated Title\", \"content\": \"Updated Content\", \"tags\": []}";
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(updateBody)
+        .when()
+            .put("/v1/notes/" + nonExistentId)
+        .then()
+            .statusCode(404)
+            .body("message", is("Note not found with id: " + nonExistentId));
+    }
+
+    @Test
+    public void testUpdateNoteWithNullTitleReturnsBadRequest() {
+        String noteId = createNoteAndGetId();
+        String updateBody = "{\"content\": \"Updated Content\", \"tags\": []}";
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(updateBody)
+        .when()
+            .put("/v1/notes/" + noteId)
+        .then()
+            .statusCode(400)
+            .body("violations.field", hasItem("updateNote.request.title"))
+            .body("violations.message", hasItem("Title is required"));
+    }
+
+    @Test
+    public void testUpdateNoteWithBlankTitleReturnsBadRequest() {
+        String noteId = createNoteAndGetId();
+        String updateBody = "{\"title\": \"   \", \"content\": \"Updated Content\", \"tags\": []}";
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(updateBody)
+        .when()
+            .put("/v1/notes/" + noteId)
+        .then()
+            .statusCode(400)
+            .body("violations.field", hasItem("updateNote.request.title"))
+            .body("violations.message", hasItem("Title is required"));
+    }
+
+    @Test
+    public void testUpdateNoteWithNullContentReturnsBadRequest() {
+        String noteId = createNoteAndGetId();
+        String updateBody = "{\"title\": \"Updated Title\", \"tags\": []}";
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(updateBody)
+        .when()
+            .put("/v1/notes/" + noteId)
+        .then()
+            .statusCode(400)
+            .body("violations.field", hasItem("updateNote.request.content"))
+            .body("violations.message", hasItem("Content is required"));
+    }
+
+    @Test
+    public void testUpdateNoteWithBlankContentReturnsBadRequest() {
+        String noteId = createNoteAndGetId();
+        String updateBody = "{\"title\": \"Updated Title\", \"content\": \"   \", \"tags\": []}";
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(updateBody)
+        .when()
+            .put("/v1/notes/" + noteId)
+        .then()
+            .statusCode(400)
+            .body("violations.field", hasItem("updateNote.request.content"))
+            .body("violations.message", hasItem("Content is required"));
+    }
+
+    @Test
+    public void testUpdateNotePreservesCreatedAt() {
+        String noteId = createNoteAndGetId();
+
+        String originalCreatedAt = given()
+        .when()
+            .get("/v1/notes/" + noteId)
+        .then()
+            .statusCode(200)
+            .extract()
+            .path("createdAt");
+
+        String updateBody = "{\"title\": \"Updated Title\", \"content\": \"Updated Content\", \"tags\": []}";
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(updateBody)
+        .when()
+            .put("/v1/notes/" + noteId)
+        .then()
+            .statusCode(200)
+            .body("createdAt", is(originalCreatedAt));
+    }
 }

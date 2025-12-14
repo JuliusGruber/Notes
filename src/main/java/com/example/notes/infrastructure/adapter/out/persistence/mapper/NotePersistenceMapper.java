@@ -18,6 +18,13 @@ public class NotePersistenceMapper {
         return entity;
     }
 
+    public void updateJpaEntity(NoteJpaEntity entity, Note note) {
+        entity.title = note.title();
+        entity.content = note.content();
+        entity.updatedAt = note.updatedAt();
+        entity.tags = note.tags();
+    }
+
     public Note toDomainEntity(NoteJpaEntity entity) {
         return Note.reconstitute(
             NoteId.of(entity.id),
