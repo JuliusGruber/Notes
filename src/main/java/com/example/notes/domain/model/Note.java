@@ -45,6 +45,20 @@ public final class Note {
         return new Note(id, title, content, createdAt, updatedAt, tags);
     }
 
+    public Note update(String title, String content, List<String> tags) {
+        validateTitle(title);
+        validateContent(content);
+
+        return new Note(
+            this.id,
+            title,
+            content,
+            this.createdAt,
+            LocalDateTime.now(),
+            tags
+        );
+    }
+
     private static void validateTitle(String title) {
         if (title == null || title.isBlank()) {
             throw new NoteValidationException("Title is required");

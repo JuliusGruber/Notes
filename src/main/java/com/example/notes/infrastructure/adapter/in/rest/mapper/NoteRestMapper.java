@@ -1,9 +1,11 @@
 package com.example.notes.infrastructure.adapter.in.rest.mapper;
 
 import com.example.notes.application.port.in.CreateNoteUseCase.CreateNoteCommand;
+import com.example.notes.application.port.in.UpdateNoteUseCase.UpdateNoteCommand;
 import com.example.notes.domain.model.Note;
 import com.example.notes.infrastructure.adapter.in.rest.dto.CreateNoteRequest;
 import com.example.notes.infrastructure.adapter.in.rest.dto.NoteResponse;
+import com.example.notes.infrastructure.adapter.in.rest.dto.UpdateNoteRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -11,6 +13,14 @@ public class NoteRestMapper {
 
     public CreateNoteCommand toCommand(CreateNoteRequest request) {
         return new CreateNoteCommand(
+            request.title(),
+            request.content(),
+            request.tags()
+        );
+    }
+
+    public UpdateNoteCommand toCommand(UpdateNoteRequest request) {
+        return new UpdateNoteCommand(
             request.title(),
             request.content(),
             request.tags()
